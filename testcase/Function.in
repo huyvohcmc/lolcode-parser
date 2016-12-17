@@ -1,0 +1,30 @@
+HAI 1.2
+ 
+ 
+	HOW IZ I FUN1
+    	VISIBLE "justdoit" 
+	IF U SAY SO
+
+    I IZ FUN1 MKAY
+    
+	HOW IZ I FUN2
+    	FOUND YR 5
+	IF U SAY SO
+
+    I HAS A VAR ITZ I IZ FUN2 MKAY
+    
+    
+	HOW IZ I FUN3 YR X
+    	VISIBLE X 
+	IF U SAY SO
+	
+    I IZ FUN3 YR VAR MKAY
+    
+	HOW IZ I FUN4 YR X AN YR Y
+    	SUM OF X Y
+		GTFO 
+	IF U SAY SO
+	
+	I IZ FUN4 YR VAR AN YR 5 MKAY
+	
+KTHXBYE

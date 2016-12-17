@@ -1,0 +1,1 @@
+[func(FUN1,[],[print("justdoit")]),FUN1(),func(FUN2,[],[return(5)]),var(VAR,FUN2()),func(FUN3,[X],[print(X)]),FUN3(VAR),func(FUN4,[X,Y],[sum(X,Y),return(null)]),FUN4(VAR,5)]

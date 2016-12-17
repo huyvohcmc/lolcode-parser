@@ -1,0 +1,1 @@
+[var(x),assign(X,sum(5,7)),eq(ANIMAL,"CAT"),ifelse([print("J00 HAV A CAT")],[eq(ANIMAL,"MAUS"),print("NOM NOM NOM. I EATED IT.")],[print("NOT A CAT")]),COLOR,switch([["R"],[print("RED FISH"),break]],[["Y"],[print("YELLOW FISH")]],[["G","B"],[print("FISH HAS A FLAVOR"),break]],[default,[print("FISH IS TRANSPARENT")]])]

@@ -1,0 +1,19 @@
+HAI 1.2
+    IM IN YR UntilLoop UPPIN YR Var TIL BOTH SAEM Var AN 3
+        VISIBLE "UntilLoop " Var
+    IM OUTTA YR UntilLoop
+    
+    IM IN YR WhileLoop bla YR Var 
+        VISIBLE "WhileLoop " Var
+    IM OUTTA YR WhileLoop
+    
+    I HAS A x ITZ 1
+    I HAS A y ITZ 1
+    IM IN YR NestedLoop
+        IM IN YR InnerLoop
+            VISIBLE "NestedLoop " x " " y
+            GTFO
+        IM OUTTA YR InnerLoop
+        GTFO
+    IM OUTTA YR NestedLoop
+KTHXBYE

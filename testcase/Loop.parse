@@ -1,0 +1,1 @@
+[loop(UntilLoop,until(eq(Var,3)),inc(Var),[print("UntilLoop ",Var)]),loop(WhileLoop,while(true),bla(Var),[print("WhileLoop ",Var)]),var(x,1),var(y,1),loop(NestedLoop,while(true),[loop(InnerLoop,while(true),[print("NestedLoop ",x," ",y),break]),break])]
