@@ -3,37 +3,37 @@ import scala.util.parsing.combinator.syntactical.StdTokenParsers
 class LolParser extends StdTokenParsers {
   type Tokens = LolTokens
   val lexical = new LolLexical
-  
+
   def parse(s: String) = phrase(program)(new lexical.Scanner(s))
-  
+
   def eol: Parser[String] = elem("eol", _.isInstanceOf[lexical.EolLit]) ^^ (_.chars)
 
   def id: Parser[IdentPT] = (ident) ^^ {
     case a => new IdentPT(a)
   }
-  
+
   def value:Parser[ValuePT] = (numericLit | stringLit) ^^ {
     case a => new ValuePT(a)
   }
-  
+
   def program: Parser[ProgramPT] =  (opt(eol) ~> "HAI" ~> opt(numericLit) <~ eol) ~> rep(statement)  <~ "KTHXBYE" <~ opt(eol) ^^
   {
     case a => new ProgramPT(a)
   }
-  
+
   def vardec: Parser[VariableDeclarationPT] = ("I HAS A" ~> ident) ~ opt("ITZ" ~> (expression)) ^^ {
     case a ~ b => new VariableDeclarationPT(new IdentPT(a),b)
   }
-  
+
   def assignment:Parser[AssignmentPT] = (ident <~ "R") ~ expression ^^ {
     case a ~ b => new AssignmentPT(new IdentPT(a),b)
   }
-  
-  def input: Parser[PrintPT] = "VISIBLE" ~> rep(expression) ~ opt("!") ^^ 
+
+  def input: Parser[PrintPT] = "VISIBLE" ~> rep(expression) ~ opt("!") ^^
   {
     case a ~ b => new PrintPT(a, b!=None)
   }
-  
+
   def output: Parser[ReadPT] = "GIMMEH" ~> ident ^^ {
     a => new ReadPT(new IdentPT(a))
   }
@@ -41,9 +41,9 @@ class LolParser extends StdTokenParsers {
   def break: Parser[BreakPT] = "GTFO" <~ eol ^^ {
     case a => new BreakPT()
   }
-  
+
   def statement: Parser[StatementPT] = (vardec|assignment|input|output|expression|ifElseStatement|switch|loop|function) <~ eol ^^ {case a => a}
-  
+
   def normalStatement: Parser[StatementPT] = (statement | break) ^^ {
     case a => a
   }
@@ -56,7 +56,7 @@ class LolParser extends StdTokenParsers {
   def expression: Parser[ExpressionPT] = (binaryOperator|unaryOperator|multiArityOperator|id|value|functionCall) ^^ {
     case a => a
   }
-  
+
   def binaryOperator: Parser[BinaryOperatorPT] = (("SUM OF"|"DIFF OF"|"PRODUKT OF"|"QUOSHUNT OF"|"MOD OF"|"BIGGR OF"|"SMALLR OF"|"BOTH OF"|"EITHER OF"|"WON OF"|"BOTH SAEM"|"DIFFRINT") ~ expression) ~ (opt("AN") ~> expression) ^^ {
     case a ~ b ~ c => new BinaryOperatorPT(a,b,c)
   }
@@ -68,7 +68,6 @@ class LolParser extends StdTokenParsers {
   def multiArityOperator: Parser[MultiArityOperatorPT] = (("ALL OF"|"ANY OF") ~ rep1sep(expression, "AN") <~ "MKAY") ^^ {
     case a ~ b => new MultiArityOperatorPT(a, b)
   }
-  
 
   /*********************** IF ELSE ********************************************/
   def elseIf: Parser[ElseIFPT] = ("MEBBE" ~> expression <~ eol) ~ rep(statement) ^^ {
@@ -82,7 +81,6 @@ class LolParser extends StdTokenParsers {
   def ifElseStatement: Parser[StatementPT] = (opt(eol) ~> "O RLY?" ~> eol ~> ifElse <~ "OIC") ^^ {
     case a => a
   }
-
 
   /*********************** CASE ***********************************************/
   def valueCase: Parser[ValueCasePT] = rep1("OMG" ~> value <~ eol) ~ rep(normalStatement) ^^ {
@@ -98,7 +96,6 @@ class LolParser extends StdTokenParsers {
     case a ~ None => new SwitchPT(a)
   }
 
-
   /*********************** LOOP ***********************************************/
   def loopCondition: Parser[LoopConditionPT] = (("UPPIN"|"NERFIN"|ident) <~ "YR") ~ id ~ opt(("TIL"|"WILE") ~ expression) ^^ {
     case a ~ b ~ Some(c ~ d) => new LoopConditionPT(a, b, Option(c -> d))
@@ -108,7 +105,6 @@ class LolParser extends StdTokenParsers {
   def loop: Parser[LoopPT] = ("IM IN YR" ~> id ~ opt(loopCondition) <~ eol) ~ rep(normalStatement) <~ "IM OUTTA YR" <~ id ^^ {
     case a ~ b ~ c => new LoopPT(a, b, c)
   }
-
 
   /*********************** FUNCTION *******************************************/
   def function: Parser[FunctionPT] = ("HOW IZ I" ~> id ~ repsep("YR" ~> id, "AN") <~ eol) ~ rep(specialStatement) <~ "IF U SAY SO" ^^ {

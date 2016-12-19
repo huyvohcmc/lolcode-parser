@@ -1,6 +1,5 @@
 trait PT {}
 
-
 class ProgramPT(val statements: List[PT]) extends PT {
   override def toString = s"[${statements mkString(",")}]";
 }
@@ -9,12 +8,11 @@ trait ExpressionPT extends StatementPT{}
 
 class IdentPT(val id: String) extends ExpressionPT {
   override def toString = id
-} 
+}
 
 class ValuePT(val value: String) extends ExpressionPT {
   override def toString = value
 }
-
 
 trait StatementPT extends PT{}
 
@@ -36,7 +34,6 @@ class AssignmentPT(val variable: IdentPT, val expression:ExpressionPT) extends S
   override def toString = s"assign($variable,$expression)"
 }
 
-
 class UnaryOperatorPT(val operator: String, val expr: ExpressionPT) extends ExpressionPT {
   override def toString = {
     operator match {
@@ -45,12 +42,11 @@ class UnaryOperatorPT(val operator: String, val expr: ExpressionPT) extends Expr
   }
 }
 
-
 class BinaryOperatorPT(val operator: String, val expr1: ExpressionPT, val expr2: ExpressionPT) extends ExpressionPT {
   override def toString = {
     val op = operator match {
       case "SUM OF" => "sum"
-      case "DIFF OF" => "diff" 
+      case "DIFF OF" => "diff"
       case "PRODUKT OF" =>"prod"
       case "QUOSHUNT OF" => "div"
       case "MOD OF" => "mod"
@@ -61,7 +57,7 @@ class BinaryOperatorPT(val operator: String, val expr1: ExpressionPT, val expr2:
       case "WON OF" => "xor"
       case "BOTH SAEM" => "eq"
       case "DIFFRINT" => "neq"
-    } 
+    }
     s"$op($expr1,$expr2)"
   }
 }
@@ -87,7 +83,7 @@ class BreakPT() extends StatementPT {
  * 			<code block>							ifCodeBlock
  * 		[MEBBE <expression>
  * 			<code block>							elseIfCodeBlock
- * 		[MEBBE <expression>			
+ * 		[MEBBE <expression>
  * 			<code block>							elseIFCodeBlock
  * 		...]]
  * 		[NO WAI
@@ -101,7 +97,6 @@ class ElseIFPT(val expr:ExpressionPT, statements:List[StatementPT]) extends Stat
 class IfElsePT(val ifCodeBlock: List[StatementPT], val elseIfCodeBlock: Option[List[ElseIFPT]], val elseCodeBlock: Option[List[StatementPT]]) extends StatementPT {
   override def toString = s"ifelse([${ifCodeBlock mkString(",")}],${elseIfCodeBlock.getOrElse(List()) mkString(",")},[${elseCodeBlock.getOrElse(List())  mkString(",")}])"
 }
-
 
 //CASE
 /*
@@ -127,7 +122,6 @@ class ValueCasePT(val caseValue: List[ValuePT], val statements:List[StatementPT]
 class DefaultCasePT(val statements:List[StatementPT]) extends CasePT {
   override def toString = s"[default,[${statements mkString(",")}]]"
 }
-
 
 //LOOP
 /*
@@ -160,7 +154,6 @@ class LoopPT(val name: IdentPT, val loopCondition: Option[LoopConditionPT], val 
   }
 }
 
-
 //FUNCTION
 /*
  * HOW IZ I <function name> [YR <argument1> [AN YR <argument2> …]]
@@ -170,9 +163,10 @@ class LoopPT(val name: IdentPT, val loopCondition: Option[LoopConditionPT], val 
 class FunctionPT(val name: IdentPT, val args:List[IdentPT], val codeBlock: List[StatementPT]) extends StatementPT {
   override def toString = s"func($name,[${args mkString(",")}],[${codeBlock  mkString(",")}])"
 }
+
 /*
- * FOUND YR <expression>				return(expression) 
- * GTFO													return(null) 
+ * FOUND YR <expression>				return(expression)
+ * GTFO													return(null)
  */
 class FunctionReturnPT(val expr: Option[ExpressionPT]) extends StatementPT {
   override def toString = s"return(${expr.getOrElse("null")})"
@@ -182,4 +176,3 @@ class FunctionReturnPT(val expr: Option[ExpressionPT]) extends StatementPT {
 class FunctionCallPT(val name: IdentPT, val args: List[ExpressionPT]) extends ExpressionPT{
   override def toString = s"$name(${args mkString(",")})"
 }
-
